@@ -91,7 +91,7 @@ public class AdminServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}else if(requested.endsWith("/listImage")) {
+		}else if(requested.endsWith("/gestionAlbums")) {
 			try {
 				listImage(request, response);
 			} catch (SQLException e) {
@@ -312,9 +312,10 @@ public class AdminServlet extends HttpServlet {
 	   
 	   private void listImage(HttpServletRequest request, HttpServletResponse response)
 	           throws SQLException, IOException, ServletException {
-	        List<Picture> listImage = pictureDAO.listPersonalPicture(1);
+		   int id = Integer.parseInt(request.getParameter("id"));
+	        List<Picture> listImage = pictureDAO.listPictureByAlbum(id);
 	        request.setAttribute("listImage", listImage);
-	        getServletContext().getRequestDispatcher("/WEB-INF/admin/ListImageTest.jsp").forward(request, response);
+	        getServletContext().getRequestDispatcher("/WEB-INF/admin/gestionAlbum.jsp").forward(request, response);
 	    }
 	   
 	   private void editAlbum(HttpServletRequest request , HttpServletResponse response) throws SQLException, IOException {

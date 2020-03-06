@@ -22,7 +22,7 @@
 
 <body>
 <% User administrateur = (User) session.getAttribute("userConnected");   
-   List<Picture> listImage = (List<Picture>) request.getAttribute("listImage");
+   List<Picture> listImages = (List<Picture>) request.getAttribute("listImage");
 %>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a href="#" class="navbar-brand">Gallerie Photo</a>
@@ -43,22 +43,24 @@
     </div>
 </nav>
  <div class="container-fluid">
-<div class="row">
-	<div class="col-md-12">
-					<h1>Bienvenue <%= administrateur.getLastname() %> ! </h1>
+<div class="row" class="text-center">
+	<div class="col-md-12" class="text-center">
+					<h1 class="text-center"> Album  </h1>
 	</div>
 </div>
 
-<div class="row">
-	<div class="col-md-12">
-		<div align="center">
-<c:forEach var="picture" items="${listImage}">
-    <h2><c:out value="${picture.titre}" /></h2>
-    <h3><c:out value="${picture.description}" /></h3>
-    <img src="data:image/jpg;base64,${picture.fichierName}" width="240" height="300"/>
-</c:forEach>
-</div>
-	</div>
+
+
+<div class="row photos">
+            	<c:forEach var="picture" items="${listImage}" varStatus="status"> 	
+            	 <div class="col-sm-6 col-md-4 col-lg-3 item">
+                <a href="data:image/jpg;base64,${picture.getFichierName()}" 
+                data-lightbox="photos" data-gallery="example-gallery" data-footer="<c:out value="${picture.description}"/>"><img class="img-fluid" 
+                src="data:image/jpg;base64,${picture.getFichierName()}" style="width:100%; height:100%;"></a>    
+ 
+             </div>
+            	</c:forEach>
+            </div>
 </div>
 </div>
 
@@ -98,5 +100,7 @@ $(document).ready(function() {
     $('#example').DataTable();
 } );
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
 </body>
 </html>

@@ -183,9 +183,7 @@ public class PictureDAO {
         List<Picture> listPictures = new ArrayList<>();
         Picture picture = null;
         
-         String sql = "SELECT picture.titre, picture.id, picture.dateCreation, picture.fichier FROM Picture INNER JOIN Albums"
-         														   + " on picture.albumID = ? "
-         															        + "INNER JOIN user on albums.userID = user.id";
+         String sql = "SELECT picture.titre, picture.id, picture.description, picture.dateCreation, picture.fichier FROM picture  inner join Albums on albums.id = picture.albumID inner join user on user.id = albums.userID where picture.albumID = ? ";
          connect();
    
         

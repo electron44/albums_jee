@@ -88,9 +88,13 @@
                     <td><c:out value="${album.getType()}"></c:out></td>
                     <td><c:out value="${album.getUser().name}"></c:out >&nbsp;<c:out value="${album.getUser().lastname}"></c:out></td>
                     <td>
-                        <a class="btn btn-success"  data-toggle="modal" data-target="#myModal<c:out value='${album.id}' />">Edit</a>
+                        <a class="btn btn-success"  data-toggle="modal" data-target="#myModal<c:out value='${album.id}' />">
+                        	<i class="fa fa-edit"></i>
+                        </a>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <a class="btn btn-danger" href="delete?id=<c:out value='${album.id}' />">Delete</a>                     
+                        <a class="btn btn-danger" href="delete?id=<c:out value='${album.id}' />">
+                        		<i class="fa fa-trash"></i>
+                        </a>                     
                     </td>
                 </tr> 
                 <div id="myModal<c:out value='${album.id}' />" class="modal fade" role="dialog">
@@ -106,7 +110,7 @@
 				      		<input type="hidden" name="id"  value="<%= administrateur.getId()%>" />
 				      		
 				  			<input type="hidden" name="id1" value="${album.id}" />
-				      	
+				      
 				      		<div class="form-group">
 				       			<label for="nom">Titre</label>
 				       			<input type="text" name="nom" class ="form-control" value="${album.getNom()}" required>

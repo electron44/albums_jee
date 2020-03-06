@@ -12,6 +12,7 @@ import java.util.List;
 import com.mysql.cj.xdevapi.Result;
 
 import beans.Albums;
+import beans.Picture;
 import beans.User;
 import databases.DatabaseConnection;
 public class AlbumsDAO {
@@ -202,6 +203,8 @@ public class AlbumsDAO {
         disconnect();
         return rowUpdated;     
     }
+    
+   
     
       
 }
