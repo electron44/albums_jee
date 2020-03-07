@@ -36,6 +36,7 @@
    List<Albums> listAlbum = (List<Albums>) request.getAttribute("listAlbum");
    List<Albums> personnalAlbum = (List<Albums>) request.getAttribute("personnalAlbum");
 %>
+<c:out value="${shared}"/>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a href="#" class="navbar-brand">Gallerie Photo</a>
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -80,8 +81,6 @@
             </tr>
         </thead>
         <tbody>
-        
-        
             <c:forEach var="album" items="${listAlbum}">
                 <tr>
 					<td><a href="gestionAlbums?id=<c:out value='${album.id}' />"><c:out value="${album.getNom()}"/></a></td>
@@ -101,9 +100,11 @@
 				  <div class="modal-dialog">
 				    <!-- Modal content-->
 				    <div class="modal-content">
-				      <div class="modal-header">
-				        <button type="button" class="close" data-dismiss="modal">&times;</button>
+				       <div class="modal-header">
 				        <h4 class="modal-title">Modification de l'album</h4>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         						 <span aria-hidden="true">&times;</span>
+      				    </button>
 				      </div>
 				      <div class="modal-body">
 				      	<form method="post" action="editAlbum">

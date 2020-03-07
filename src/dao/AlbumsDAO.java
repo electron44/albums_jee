@@ -131,6 +131,39 @@ public class AlbumsDAO {
          disconnect();
         return listAlbums;
     }
+    public List<Albums> listAllPrivate(int identifiant) throws SQLException {
+        List<Albums> listAlbums = new ArrayList<>();
+        Albums albums = null;
+        User user = null;
+         String sql = "SELECT * FROM albums where userID =   ? and type like \"prive\" ";
+         connect();
+   
+        
+         PreparedStatement preparedStatement = jdbcConnection.prepareStatement(sql);
+         preparedStatement.setInt(1, identifiant);
+         ResultSet resultSet = preparedStatement.executeQuery();
+         
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            String nom = resultSet.getString("nom");
+            String type = resultSet.getString("type");
+            int ownerID = resultSet.getInt("userID");
+             albums = new Albums();
+             albums.setId(id);
+             albums.setNom(nom);
+             albums.setType(type);
+             user = getProprietaire(ownerID);
+             albums.setUser(user);           
+            listAlbums.add(albums);
+        }
+         
+        resultSet.close();
+        preparedStatement.close();
+
+         disconnect();
+        return listAlbums;
+    }
+    
      
     public User getProprietaire(int id) throws SQLException {
     	String sql = "Select name ,lastname , username from albums INNER JOIN user on user.id = ?";
@@ -203,6 +236,56 @@ public class AlbumsDAO {
         disconnect();
         return rowUpdated;     
     }
+    
+    public boolean addPartage(int idAlbum , int usersId) throws SQLException {
+    	String sql = "INSERT into sharedalbum (idAlbum,UsersId) values (?,?)";
+    	connect();
+    	PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+    	statement.setInt(2, usersId);
+    	statement.setInt(1, idAlbum);
+    	
+    	boolean inserted = statement.executeUpdate() > 0;
+    	statement.close();
+        disconnect();
+        return inserted;
+    }
+    
+    public List<Albums> listSharedAlbum(int identifiant) throws SQLException{
+    	List<Albums> listAlbums = new ArrayList<>();
+        Albums albums = null;
+        User user = null;
+        
+    	String sql = " Select * from albums inner join sharedalbum on sharedalbum.idalbum = albums.id  where albums.userID <> ?  and albums.type like \"prive\"";
+    	connect();
+    	   
+        
+        PreparedStatement preparedStatement = jdbcConnection.prepareStatement(sql);
+        preparedStatement.setInt(1, identifiant);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        
+       while (resultSet.next()) {
+           int id = resultSet.getInt("id");
+           String nom = resultSet.getString("nom");
+           String type = resultSet.getString("type");
+           int ownerID = resultSet.getInt("userID");
+            albums = new Albums();
+            albums.setId(id);
+            albums.setNom(nom);
+            albums.setType(type);
+            user = getProprietaire(ownerID);
+            albums.setUser(user);           
+           listAlbums.add(albums);
+       }
+        
+       resultSet.close();
+       preparedStatement.close();
+
+        disconnect();
+       return listAlbums;
+    }
+    
+    
+    
     
    
     

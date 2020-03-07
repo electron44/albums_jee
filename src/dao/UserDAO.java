@@ -136,15 +136,14 @@ public class UserDAO {
     
      
     public boolean updateUser(User User) throws SQLException {
-        String sql = "UPDATE User SET username = ?, name = ?, lastname = ? , password = ?";
+        String sql = "UPDATE User SET username = ?, name = ?, lastname = ?";
         sql += " WHERE id = ? and is_deleted = 0";
          connect();
         PreparedStatement statement = jdbcConnection.prepareStatement(sql);
         statement.setString(1, User.getUsername());
         statement.setString(2, User.getName());
         statement.setString(3, User.getLastname());
-        statement.setString(4, User.getPassword());
-        statement.setInt(5, User.getId());
+        statement.setInt(4, User.getId());
        
         boolean rowUpdated = statement.executeUpdate() > 0;
         statement.close();
@@ -204,4 +203,37 @@ public class UserDAO {
     	
     	return user;
     }
+    
+    public List<User> listAllOtherUsers(int identifiant) throws SQLException {
+        List<User> listUser = new ArrayList<>();
+        User User = null;
+        String sql = "SELECT * FROM User where is_deleted  = 0 and id <> ?";
+         
+        connect();
+        PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+        statement.setInt(1,identifiant);
+        ResultSet resultSet = statement.executeQuery();
+        
+         
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            String username = resultSet.getString("username");
+            String lastname = resultSet.getString("name");
+            String name = resultSet.getString("lastname");
+            String password = resultSet.getString("password");
+            int type = resultSet.getInt("typeUser");
+            int is_deleted = resultSet.getInt("is_deleted");
+             
+            User = new User(id,name,lastname,username,password,type,is_deleted);
+            listUser.add(User);
+        }
+         
+        resultSet.close();
+        statement.close();
+
+         disconnect();
+        return listUser;
+    }
+    
+    
 }

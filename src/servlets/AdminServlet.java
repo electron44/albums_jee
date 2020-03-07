@@ -33,7 +33,8 @@ import dao.UserDAO;
  * Servlet implementation class AdminServlet
  */
 @WebServlet("/admin/*")
-@MultipartConfig(maxFileSize = 16177215)
+@MultipartConfig(maxFileSize = 1024*1024*5,maxRequestSize = 1024*1024*3*3) 
+
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -74,9 +75,12 @@ public class AdminServlet extends HttpServlet {
 				int id = Integer.parseInt(request.getParameter("id"));
 				
 				List<Albums> personnalAlbum = null;
+				List<Albums> albumPartager = null;
 				if(Integer.valueOf(id)!=null) {
 					personnalAlbum = albumsDAO.listAlbumsPersonal(id);
+					albumPartager= albumsDAO.listSharedAlbum(id);
 				}
+				request.setAttribute("shared", albumPartager);
 				request.setAttribute("personnalAlbum", personnalAlbum);
 				listAlbums(request, response);
 			} catch (SQLException e) {
@@ -152,6 +156,12 @@ public class AdminServlet extends HttpServlet {
 				editAlbum(request, response);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(requested.endsWith("/editUser")) {
+			try {
+				editUser(request, response);
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
@@ -283,7 +293,7 @@ public class AdminServlet extends HttpServlet {
 			}
 	    
 	   private void addPicture(HttpServletRequest request , HttpServletResponse response) throws IOException, ServletException, SQLException {
-		   
+		   		String erreur= "";
 	    	 	String titrePhoto = request.getParameter("titrePhoto");
 		        String descriptionPhoto = request.getParameter("description");
 		        int albumId = Integer.parseInt(request.getParameter("albumId"));
@@ -306,8 +316,10 @@ public class AdminServlet extends HttpServlet {
 		       
 		        if(yup)
 		        	response.sendRedirect("accueil"); 
-		        else
-		        	out.print("Pas inseré");
+		        else {
+		        	
+		        	
+		        }
 	   }
 	   
 	   private void listImage(HttpServletRequest request, HttpServletResponse response)
@@ -331,6 +343,21 @@ public class AdminServlet extends HttpServlet {
 		  albumsDAO.updateAlbum(albums);
 		  response.sendRedirect("listAlbums?id="+id);
 	}
+	   
+	   private void editUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		   int id1 = Integer.parseInt(request.getParameter("id1"));
+		   int id = Integer.parseInt(request.getParameter("id"));
+		   User user =new User(id1);
+		   String nom = request.getParameter("nom");
+		   user.setName(nom);
+		   String prenom= request.getParameter("prenom");
+		   user.setLastname(prenom);
+		   String username = request.getParameter("username");
+		   user.setUsername(username);
+		   userDAO.updateUser(user);
+		   response.sendRedirect("listUtilisateurs");
+	   }
+	   
 	   
 
 }

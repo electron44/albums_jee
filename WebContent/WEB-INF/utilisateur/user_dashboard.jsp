@@ -57,7 +57,7 @@
             	 		<c:out value="${key}"/>
             	 </c:forTokens>">    
                  <a href="data:image/jpg;base64,${picture.getFichierName()}" data-toggle="lightbox" data-width="900">
-                <img src="data:image/jpg;base64,${picture.getFichierName()}" class="img-fluid">
+                <img src="data:image/jpg;base64,${picture.getFichierName()}" class="img-fluid" width:>
             </a>
                 <c:out value="${picture.description}"/>
              </div>
@@ -114,6 +114,11 @@
 	margin-bottom: 40px;
 }
 
+
+.filter img{
+	width : 300px;
+	height : 200px;
+}
 </style>
 <script>
 $(document).on('click', '[data-toggle="lightbox"]', function(event) {

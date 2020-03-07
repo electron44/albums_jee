@@ -14,8 +14,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Albums</title>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
-     <!--  --> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css"> 
-  <script src="https://code.jquery.com/jquery-3.3.1.js" type="text/javascript"></script>
+     <!--  --> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+ 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" crossorigin="anonymous">
 <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" type="text/javascript"></script>
@@ -79,7 +82,7 @@
 				                    <td><c:out value="${user.lastname}"></c:out></td>
 				                    <td><c:out value="${user.username}"></c:out></td>
 				                    <td>
-				                        <a class="btn btn-success" href="edit?login=<c:out value='${user.id}' />">
+				                        <a class="btn btn-success"  data-toggle="modal" data-target="#myModal<c:out value='${user.id}' />">
 				                        	<i class="fa fa-edit"></i>
 				                        </a>
 				                        &nbsp;&nbsp;&nbsp;&nbsp;
@@ -88,6 +91,53 @@
 				                        </a>                     
 				                    </td>
 				                </tr>
+				                <div id="myModal<c:out value='${user.id}' />" class="modal fade" role="dialog">
+				  <div class="modal-dialog">
+				    <!-- Modal content-->
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h4 class="modal-title">Modification de l'utilisateur</h4>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         						 <span aria-hidden="true">&times;</span>
+      					  </button>
+				      </div>
+				      <div class="modal-body">
+				      	<form method="post" action="editUser">
+				      		<input type="hidden" name="id"  value="<%= administrateur.getId()%>" />
+				      		
+				  			<input type="hidden" name="id1" value="${user.id }" />
+				      
+				      		<div class="form-group">
+				       			<label for="nom">Nom</label>
+				       			<input type="text" name="nom" class ="form-control" value="${user.name }" required>
+				       		</div>
+				       		<div class="form-group">
+				       			<label for="nom">Prenom</label>
+				       			<input type="text" name="prenom" class ="form-control" value="${user.lastname }" required>
+				       		</div>
+				       		
+				       		<div class="form-group">
+				       			<label for="nom">Username</label>
+				       			<input type="text" name="username" class ="form-control" value="${user.username }" required>
+				       		</div>
+				       		
+							
+							<div class="form-group">
+								<button type="submit" class="btn btn-success btn-block">Enregistrer Modifications</button>
+							</div>
+							
+				      	
+				      	</form>
+				       		
+							
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				      </div>
+				    </div>
+				
+				  </div>
+				</div>
 				            </c:forEach>
 				            </tbody>
        					 </table>
