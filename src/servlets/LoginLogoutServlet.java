@@ -63,17 +63,19 @@ public class LoginLogoutServlet extends HttpServlet {
 		if(requested.endsWith("/login")) {
 			getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
 		}else if(requested.endsWith("/user/user_dashboard")) {
-try {
-	listImage(request, response);
-} catch (SQLException e) {
-	// TODO Auto-generated catch block
-	e.printStackTrace();
-}
+			try {
+				HttpSession session = request.getSession(false);
+				listImage(request, response);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			getServletContext().getRequestDispatcher("/WEB-INF/utilisateur/user_dashboard.jsp").forward(request, response);
 		}else if (requested.endsWith("/signup")) {
 			getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
 		}else if (requested.endsWith("/admin/accueil")) {
 			try {
+				HttpSession session = request.getSession(false);
 				listImage(request, response);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -119,15 +121,18 @@ try {
 			String messageErreur = "Login ou mot de passe incorrect !";
 			String username  = request.getParameter("username");
 			String password = request.getParameter("password");
+			int id=0;
 			User userConnected =  null;
-			List<Picture> partageIma =null;
+			List<Picture> partageIma = null ;
 			if((userConnected = userDAO.connectUser(username, password))!= null) {
+				id =userConnected.getId();
 				HttpSession session = request.getSession(false);
+				partageIma = new ArrayList<Picture>();
+				partageIma = pictureDAO.listPictureByAlbumPartager(id);
 				session.setAttribute("userConnected", userConnected);
-				partageIma = pictureDAO.listPictureByAlbumPartager(userConnected.getId());
-				
+				session.setAttribute("pictureShared",partageIma);
+
 				if(userConnected.getTypeUser() == 1) {
-					request.setAttribute("pictureShared",partageIma);
 					response.sendRedirect("admin/accueil");
 				}else {
 					response.sendRedirect("user/user_dashboard");

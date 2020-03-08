@@ -24,10 +24,9 @@
 <% User administrateur = (User) session.getAttribute("userConnected");   
    List<Albums> listAlbum = (List<Albums>) request.getAttribute("listAlbum");
    List<Picture> listImage = (List<Picture>)request.getAttribute("galerie");
-   List<Picture> listImageS = (List<Picture>)request.getAttribute("pictureShared");
+   List<Picture> listImageS = (List<Picture>)session.getAttribute("pictureShared");
 %>
 
-<c:out value="${listImageS.toString() }"></c:out>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a href="#" class="navbar-brand">Gallerie Photo</a>
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
