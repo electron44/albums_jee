@@ -226,6 +226,54 @@ public class PictureDAO {
 		return listPictures;
     }
     
+    public List<Picture> listPictureByAlbumPartager(int identifiant) throws SQLException, IOException {
+        List<Picture> listPictures = new ArrayList<>();
+        Picture picture = null;
+        
+         String sql = "Select * from picture inner join albums on picture.albumID =albums.id INNER JOIN sharedalbum on sharedalbum.idAlbum =albums.id where albums.userID <> ? and sharedalbum.usersID = ? ";
+         connect();
+   
+        
+         PreparedStatement preparedStatement = jdbcConnection.prepareStatement(sql);
+         preparedStatement.setInt(1, identifiant);
+         preparedStatement.setInt(2, identifiant);
+         ResultSet resultSet = preparedStatement.executeQuery();
+         
+        while (resultSet.next()) {
+          int id = resultSet.getInt("picture.id");
+          String titre =  resultSet.getString("picture.titre");
+          String description = resultSet.getString("picture.description");
+          String dateCreation = resultSet.getString("picture.dateCreation");
+          Blob blob = resultSet.getBlob("picture.fichier");
+          
+          InputStream inputStream = blob.getBinaryStream();
+          ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+          byte[] buffer = new byte[4096];
+          int bytesRead = -1;
+           
+          while ((bytesRead = inputStream.read(buffer)) != -1) {
+              outputStream.write(buffer, 0, bytesRead);
+          }
+           
+          byte[] imageBytes = outputStream.toByteArray();
+           
+          String fichierName = Base64.getEncoder().encodeToString(imageBytes);
+           
+          inputStream.close();
+          outputStream.close();
+          picture = new Picture();
+          picture.setId(id);
+          picture.setTitre(titre);
+          picture.setDescription(description);
+          picture.setFichierName(fichierName);           
+          
+          listPictures.add(picture);
+          inputStream.close();
+          outputStream.close();
+        }
+		return listPictures;
+    }
+    
     
     
 }

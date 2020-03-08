@@ -24,7 +24,10 @@
 <% User administrateur = (User) session.getAttribute("userConnected");   
    List<Albums> listAlbum = (List<Albums>) request.getAttribute("listAlbum");
    List<Picture> listImage = (List<Picture>)request.getAttribute("galerie");
+   List<Picture> listImageS = (List<Picture>)request.getAttribute("pictureShared");
 %>
+
+<c:out value="${listImageS.toString() }"></c:out>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a href="#" class="navbar-brand">Gallerie Photo</a>
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -74,6 +77,20 @@
              </div>
             	</c:forEach>
             </div>
+            
+            <div class="row photos">
+            	<h1>Partagé(s) </h1>
+            	<c:forEach var="picture" items="<%= listImageS %>" varStatus="status"> 	
+            	 <div class="col-sm-6 col-md-4 col-lg-3 item filter <c:forTokens var="key" items="${picture.keywords}" delims=";">
+            	 		<c:out value="${key}"/>
+            	 </c:forTokens>">
+                <a href="data:image/jpg;base64,${picture.getFichierName()}" 
+                data-lightbox="photos"><img class="img-fluid" 
+                src="data:image/jpg;base64,${picture.getFichierName()}"></a>    
+                <c:out value="${picture.description}"/>
+             </div>
+            	</c:forEach>
+            </div>
 </div>
    
    
@@ -103,6 +120,11 @@ box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
 span.input-group-addon i {
     color: #009edf;
     font-size: 17px;
+}
+
+.filter img{
+	width : 300px;
+	height : 200px;
 }
 
 </style>

@@ -70,7 +70,7 @@ public class AlbumsDAO {
         List<Albums> listAlbums = new ArrayList<>();
         Albums albums = null;
         User user = null;
-         String sql = "SELECT * FROM albums";
+         String sql = "SELECT * FROM albums where type not LIKE \"prive\" ";
          connect();
    
         Statement statement = jdbcConnection.createStatement();

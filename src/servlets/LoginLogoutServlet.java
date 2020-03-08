@@ -120,11 +120,14 @@ try {
 			String username  = request.getParameter("username");
 			String password = request.getParameter("password");
 			User userConnected =  null;
-
+			List<Picture> partageIma =null;
 			if((userConnected = userDAO.connectUser(username, password))!= null) {
-				HttpSession session = request.getSession();
+				HttpSession session = request.getSession(false);
 				session.setAttribute("userConnected", userConnected);
+				partageIma = pictureDAO.listPictureByAlbumPartager(userConnected.getId());
+				
 				if(userConnected.getTypeUser() == 1) {
+					request.setAttribute("pictureShared",partageIma);
 					response.sendRedirect("admin/accueil");
 				}else {
 					response.sendRedirect("user/user_dashboard");

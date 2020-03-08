@@ -239,6 +239,8 @@ public class UserServletsLogSign extends HttpServlet {
 		  request.setAttribute("messagePartage", message);
 		  response.sendRedirect("mesAlbums?id="+id);
 	  }
+	  
+	 
 	
 	
 }
