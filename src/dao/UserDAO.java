@@ -235,5 +235,20 @@ public class UserDAO {
         return listUser;
     }
     
+    public boolean  checkExistence(String username) throws SQLException {
+    	String sql  = "Select * from  user where username = ?";
+    	connect();
+    	PreparedStatement  preparedStatement=  jdbcConnection.prepareStatement(sql);
+    	boolean exists = false;
+    	preparedStatement.setString(1, username);
+    	
+    	ResultSet rs = preparedStatement.executeQuery();
+    	
+    	if(rs.next()) {
+    		exists = true;
+    	}
+    	return exists;
+    }
+    
     
 }

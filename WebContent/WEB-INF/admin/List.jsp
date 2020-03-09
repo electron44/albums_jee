@@ -36,7 +36,6 @@
    List<Albums> listAlbum = (List<Albums>) request.getAttribute("listAlbum");
    List<Albums> personnalAlbum = (List<Albums>) request.getAttribute("personnalAlbum");
 %>
-<c:out value="${shared}"/>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a href="#" class="navbar-brand">Gallerie Photo</a>
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -51,7 +50,7 @@
              <a href="listUtilisateurs" class="nav-item nav-link active">Users</a>
         </div>
         <div class="navbar-nav ml-auto">
-        	<a href="#" class="nav-item nav-link"></a>
+        	<a href="#" class="nav-item nav-link"><%= administrateur.getUsername() %></a>
             <a href="logout" class="nav-item nav-link">Déconnecter</a>
         </div>
     </div>

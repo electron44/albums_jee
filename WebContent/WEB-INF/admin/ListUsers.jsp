@@ -195,6 +195,9 @@
 									    </select>
 								</div>
 						</div>
+							<p class="text-danger">${erreurs['username']}</p>
+	<p class="text-danger">${erreurs['password']} </p>
+	<p class="text-danger">${erreurs['exists']} </p>
 				<button type="submit" class="btn btn-primary">enregistrer</button>
 						
 					</form>

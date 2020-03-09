@@ -27,6 +27,7 @@
 <body>
 <% User utilisateur = (User) session.getAttribute("userConnected");
  List<Picture> listImages = (List) request.getAttribute("galerie");
+ List<Picture> listImageS = (List<Picture>)session.getAttribute("pictureShared");
 %>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a href="#" class="navbar-brand">Gallerie Photo</a>
@@ -40,17 +41,17 @@
              <a href="mesAlbums?id=<%= utilisateur.getId()%>" class="nav-item nav-link">Albums</a>
         </div>
         <div class="navbar-nav ml-auto">
-        	<a href="#" class="nav-item nav-link"></a>
+        	<a href="#" class="nav-item nav-link"><%= utilisateur.getUsername() %></a>
             <a href="logout" class="nav-item nav-link">Déconnecter</a>
         </div>
     </div>
 </nav>
 <div class="container">
-	<div class="row">
-		<div class="col-md-12">
-						<h1>Bienvenue <%= utilisateur.getLastname() %> ! </h1>
-		</div>
-	</div>
+  <div class="row">
+            	<div class="col-md-12 text-center">
+            		<h1>Galerie</h1>
+            	</div>
+            </div>
 	<div class="row photos">
         <c:forEach var="picture" items="<%=listImages %>" varStatus="status">     	
            <div class="col-sm-6 col-md-4 col-lg-3 item filter <c:forTokens var="key" items="${picture.keywords}" delims=";">
@@ -62,7 +63,29 @@
                 <c:out value="${picture.description}"/>
              </div>
          </c:forEach>
-     </div>    
+     </div>  
+     
+      <div class="row">
+            	<div class="col-md-12 text-center">
+            		<h1>Photo(s) partagé(s) avec moi</h1>
+            	</div>
+            </div>
+            
+            <div class="row photos">
+            
+            	<c:forEach var="picture" items="<%= listImageS %>" varStatus="status"> 	
+            	 <div class="col-sm-6 col-md-4 col-lg-3 item filter <c:forTokens var="key" items="${picture.keywords}" delims=";">
+            	 		<c:out value="${key}"/>
+            	 </c:forTokens>">
+                <a href="data:image/jpg;base64,${picture.getFichierName()}" 
+                data-lightbox="photos"><img class="img-fluid" 
+                src="data:image/jpg;base64,${picture.getFichierName()}"></a>    
+                <c:out value="${picture.description}"/>
+             </div>
+            
+            	
+            	</c:forEach>
+            	</div>  
     
             
 </div>

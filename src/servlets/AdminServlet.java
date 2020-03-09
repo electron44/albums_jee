@@ -232,7 +232,9 @@ public class AdminServlet extends HttpServlet {
 					// TODO Auto-generated catch block
 					erreurs.put("username",e.getMessage());
 				}
-		        
+		        if(userDAO.checkExistence(username)) {
+		        	erreurs.put("exists", "Username déja pris !");
+		        }
 		        if(erreurs.isEmpty()) {
 		        	 User newUser = new User();
 		        	 newUser.setUsername(username);
@@ -244,7 +246,7 @@ public class AdminServlet extends HttpServlet {
 			         response.sendRedirect("listUtilisateurs");
 		        }else {
 		        	request.setAttribute("erreurs", erreurs);
-		        	getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
+		        	getServletContext().getRequestDispatcher("/WEB-INF/admin/ListUsers.jsp").forward(request, response);
 		        }
 		        
 		       

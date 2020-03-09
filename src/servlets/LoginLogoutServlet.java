@@ -125,7 +125,7 @@ public class LoginLogoutServlet extends HttpServlet {
 			User userConnected =  null;
 			List<Picture> partageIma = null ;
 			if((userConnected = userDAO.connectUser(username, password))!= null) {
-				id =userConnected.getId();
+				id = userConnected.getId();
 				HttpSession session = request.getSession(false);
 				partageIma = new ArrayList<Picture>();
 				partageIma = pictureDAO.listPictureByAlbumPartager(id);
@@ -165,6 +165,9 @@ public class LoginLogoutServlet extends HttpServlet {
 					// TODO Auto-generated catch block
 					erreurs.put("username",e.getMessage());
 				}
+		        if(userDAO.checkExistence(username)) {
+		        	erreurs.put("exists","Username déja pris !");
+		        }
 		        
 		        if(erreurs.isEmpty()) {
 		        	 User newUser = new User();
@@ -172,9 +175,9 @@ public class LoginLogoutServlet extends HttpServlet {
 		 	         newUser.setLastname(lastname);
 		 	         newUser.setPassword(password);
 		 	         newUser.setName(name);
-		 	         userDAO.insertUser(newUser);
-			         response.sendRedirect("login");
-		 	         
+		 	        	userDAO.insertUser(newUser);
+				        response.sendRedirect("login");
+ 
 		        }else {
 		        	request.setAttribute("erreurs", erreurs);
 		        	getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);

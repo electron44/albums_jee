@@ -50,6 +50,7 @@
 	<input type="password" placeholder="retaper le mot de passe" name="password_confirm">
 	<p class="text-danger">${erreurs['username']}</p>
 	<p class="text-danger">${erreurs['password']} </p>
+	<p class="text-danger">${erreurs['exists']} </p>
 	
 </div>
 <div class="clearfix">

@@ -136,6 +136,11 @@
 	margin-bottom: 40px;
 }
 
+.filter img{
+	width : 300px;
+	height : 200px;
+}
+
 </style>
 
 <script type="text/javascript">

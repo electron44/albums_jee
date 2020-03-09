@@ -40,7 +40,7 @@
              <a href="listUtilisateurs" class="nav-item nav-link active">Users</a>
         </div>
         <div class="navbar-nav ml-auto">
-        	<a href="#" class="nav-item nav-link"></a>
+        	<a href="#" class="nav-item nav-link"><%=administrateur.getUsername() %></a>
             <a href="logout" class="nav-item nav-link">Déconnecter</a>
         </div>
     </div>
@@ -77,8 +77,14 @@
             	</c:forEach>
             </div>
             
+            <div class="row">
+            	<div class="col-md-12 text-center">
+            		<h1>Photo(s) partagé(s) avec moi</h1>
+            	</div>
+            </div>
+            
             <div class="row photos">
-            	<h1>Partagé(s) </h1>
+            
             	<c:forEach var="picture" items="<%= listImageS %>" varStatus="status"> 	
             	 <div class="col-sm-6 col-md-4 col-lg-3 item filter <c:forTokens var="key" items="${picture.keywords}" delims=";">
             	 		<c:out value="${key}"/>
@@ -88,7 +94,10 @@
                 src="data:image/jpg;base64,${picture.getFichierName()}"></a>    
                 <c:out value="${picture.description}"/>
              </div>
+            
+            	
             	</c:forEach>
+            	</div>
             </div>
 </div>
    
